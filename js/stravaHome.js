@@ -21,15 +21,15 @@ function($scope,$location,$http){
 	}).then(function successCallback(response) {
 		//console.log(response);
 		$scope.auth_code = response.data.access_token;
-		$scope.loadProfile();
+		$scope.loadProfile($scope.auth_code);
 	}, function errorCallback(response) {
 		console.log("error");
 	});
 	
-	$scope.loadProfile = function(){
+	$scope.loadProfile = function(code){
 		$http({
 			method: 'jsonp',
-			url: "https://www.strava.com/api/v3/athlete?access_token="+$scope.auth_code
+			url: "https://www.strava.com/api/v3/athlete?access_token="+code
 		}).then(function successCallback(response) {
 			//console.log(response);	
 			$scope.userdata = response.data;
