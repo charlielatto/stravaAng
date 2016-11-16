@@ -3,7 +3,8 @@ var app = angular.module('stravaHome',[]);
 app.controller('MainCtrl',[
 '$scope',
 '$location',
-function($scope,$location){
+'$http',
+function($scope,$location,$http){
 	
 	var searchObject = $location.search();
 	
