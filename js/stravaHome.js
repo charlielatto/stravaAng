@@ -8,7 +8,7 @@ function($scope){
 	
 	$http({
 		method: 'GET',
-		url: "php/form.php?code="+searchObject.code;
+		url: "php/form.php?code="+searchObject.code
 	}).then(function successCallback(response) {
 		$scope.auth_code = response.access_token;
 	}, function errorCallback(response) {
