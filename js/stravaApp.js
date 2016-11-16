@@ -1,4 +1,4 @@
-var app = angular.module('parkour',[]);
+var app = angular.module('strava',[]);
 
 app.controller('MainCtrl',[
 '$scope',
