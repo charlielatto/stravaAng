@@ -1,13 +1,14 @@
 var app = angular.module('stravaHome',[]);
 
+app.config(function($locationProvider) {
+  $locationProvider.html5Mode(true);
+});
+
 app.controller('MainCtrl',[
 '$scope',
 '$location',
 '$http',
-'$locationProvider',
-function($scope,$location,$http,$locationProvider){
-	
-	$locationProvider.html5Mode(true);
+function($scope,$location,$http,){
 	
 	var searchObject = $location.search().code;
 	console.log(searchObject);
