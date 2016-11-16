@@ -25,5 +25,18 @@ function($scope,$location,$http){
 		console.log("error");
 	});
 	
+	$http({
+		method: 'GET',
+		url: "https://www.strava.com/api/v3/athlete?access_token="+$scope.auth_code
+	}).then(function successCallback(response) {
+		//console.log(response);
+		$scope.userdata = response.data;
+		console.log(response.data);
+	}, function errorCallback(response) {
+		console.log("error");
+	});
+	
+	
+	
 	
 }]);
