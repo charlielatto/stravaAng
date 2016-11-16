@@ -8,7 +8,7 @@ app.controller('MainCtrl',[
 '$scope',
 '$location',
 '$http',
-function($scope,$location,$http,){
+function($scope,$location,$http){
 	
 	var searchObject = $location.search().code;
 	console.log(searchObject);
