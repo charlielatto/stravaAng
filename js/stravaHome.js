@@ -1,7 +1,10 @@
 var app = angular.module('stravaHome',[]);
 
 app.config(function($locationProvider) {
-  $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode({
+	enabled: true,
+	requireBase: false
+	});;
 });
 
 app.controller('MainCtrl',[
