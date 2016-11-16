@@ -28,7 +28,7 @@ function($scope,$location,$http){
 	
 	$scope.loadProfile = function(){
 		$http({
-			method: 'GET',
+			method: 'jsonp',
 			url: "https://www.strava.com/api/v3/athlete?access_token="+$scope.auth_code
 		}).then(function successCallback(response) {
 			//console.log(response);	
