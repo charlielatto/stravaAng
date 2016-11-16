@@ -4,9 +4,12 @@ app.controller('MainCtrl',[
 '$scope',
 '$location',
 '$http',
-function($scope,$location,$http){
+'$locationProvider',
+function($scope,$location,$http,$locationProvider){
 	
-	var searchObject = $location.search()['code'];
+	$locationProvider.html5Mode(true);
+	
+	var searchObject = $location.search().code;
 	console.log(searchObject);
 	
 	$http({
