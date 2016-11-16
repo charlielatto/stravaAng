@@ -32,10 +32,11 @@ function($scope,$location,$http){
 			url: "https://www.strava.com/api/v3/athlete?access_token="+code
 		}).then(function successCallback(response) {
 			//console.log(response);	
-			$scope.userdata = response.data;
-			console.log(response.data);
+			//$scope.userdata = response.data;
+			console.log(response);
 		}, function errorCallback(response) {
 			console.log("error");
+			console.log(response);
 		});
 	}
 	
