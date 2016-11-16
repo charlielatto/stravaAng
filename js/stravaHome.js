@@ -32,8 +32,8 @@ function($scope,$location,$http){
 			url: "https://www.strava.com/api/v3/athlete?callback=JSON_CALLBACK&access_token="+code
 		}).then(function successCallback(response) {
 			//console.log(response);	
-			//$scope.userdata = response.data;
-			console.log(response);
+			$scope.userdata = response.data;
+			console.log(response.data);
 		}, function errorCallback(response) {
 			console.log("error");
 			console.log(response);
