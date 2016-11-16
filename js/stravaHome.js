@@ -18,7 +18,7 @@ function($scope,$location,$http){
 	
 	$http({
 		method: 'GET',
-		url: "php/form.php?code="+searchObject.code
+		url: "php/form.php?code="+searchObject
 	}).then(function successCallback(response) {
 		console.log(response);
 		$scope.auth_code = response.access_token;
