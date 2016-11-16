@@ -12,7 +12,7 @@ function($scope,$location,$http){
 		method: 'GET',
 		url: "php/form.php?code="+searchObject.code
 	}).then(function successCallback(response) {
-		console.log("success");
+		console.log(response);
 		$scope.auth_code = response.access_token;
 	}, function errorCallback(response) {
 		console.log("error");
