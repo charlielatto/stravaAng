@@ -7,6 +7,7 @@ app.controller('MainCtrl',[
 function($scope,$location,$http){
 	
 	var searchObject = $location.search();
+	console.log(searchObject);
 	
 	$http({
 		method: 'GET',
