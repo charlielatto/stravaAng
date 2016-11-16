@@ -29,7 +29,7 @@ function($scope,$location,$http){
 	$scope.loadProfile = function(code){
 		$http({
 			method: 'jsonp',
-			url: "https://www.strava.com/api/v3/athlete?access_token="+code
+			url: "https://www.strava.com/api/v3/athlete?callback=JSON_CALLBACK&access_token="+code
 		}).then(function successCallback(response) {
 			//console.log(response);	
 			//$scope.userdata = response.data;
