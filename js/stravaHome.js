@@ -14,13 +14,12 @@ app.controller('MainCtrl',[
 function($scope,$location,$http){
 	
 	var searchObject = $location.search().code;
-	console.log(searchObject);
-	
+		
 	$http({
-		method: 'GET',
+		method: 'POST',
 		url: "php/form.php?code="+searchObject
 	}).then(function successCallback(response) {
-		console.log(response);
+		//console.log(response);
 		$scope.auth_code = response.data.access_token;
 	}, function errorCallback(response) {
 		console.log("error");
