@@ -40,7 +40,11 @@ function($scope,$location,$http){
 		});
 	}
 	
+	$scope.foundation = function(){
+		$(document).foundation();
+	}
 	
+	$scope.foundation();
 	
 	
 }]);
