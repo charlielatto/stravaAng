@@ -41,6 +41,10 @@ function($scope,$location,$http,stravaService){
 		});
 	}
 	
+	$scope.commutePage = function(){
+		location.href = 'commutes.html?code='+searchObject;
+	}
+	
 	$scope.foundation = function(){
 		$(document).foundation();
 	}

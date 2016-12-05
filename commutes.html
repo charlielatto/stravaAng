@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<title>Strava</title>
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css">
+		<script src="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+		<script src="js/stravaCommutes.js"></script>
+		<link rel="stylesheet" href="foundation-icons/foundation-icons.css" />
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+	<body ng-app="stravaCommutes" ng-controller="MainCtrl">
+	
+		<div class="title-bar top">
+			<div class="title-bar-left">
+				<a href="index.html" target="_self"><h4 class="title-bar-title">Strava Stats</h4></a>
+			</div>
+			<div class="title-bar-right">
+				<div class="user">
+					<i class="fi-torso"></i>
+					<span>{{userdata.firstname}} {{userdata.lastname}}</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="callout alert">
+			<div class="row">
+				<div class="small-1 column small-offset-4">
+					<img class="profilepic" ng-src="{{userdata.profile}}" alt="profile pic">
+				</div>
+				<div class="small-4 column end">
+					<h3 class="name">{{userdata.firstname}} {{userdata.lastname}}</h3>
+					<h4><strong>Commute Stats</strong></h4>
+				</div>
+			</div>
+		</div>
+		
+		
+		<footer class="footer" style="position:fixed;">
+			<div class="title-bar">
+				<div class="title-bar-left">
+					<div class="container-footer">
+						<a href="http://labs.strava.com/" id="powered_by_strava" rel="nofollow">
+							<img class="poweredimg" src="img/api_logo_pwrdBy_strava_stack_light.png" alt="Powered By Strava" width="116" height="50" />
+						</a>
+					<div>
+				</div>
+
+			</div>
+		</footer>
+	</body>
+</html>

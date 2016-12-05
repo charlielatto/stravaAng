@@ -28,7 +28,7 @@
 		<div class="callout alert">
 			<div class="row">
 				<div class="small-1 column small-offset-4">
-					<img class="profilepic" src="{{userdata.profile_medium}}" alt="profile pic">
+					<img class="profilepic" ng-src="{{userdata.profile}}" alt="profile pic">
 				</div>
 				<div class="small-4 column end">
 					<h3 class="name">{{userdata.firstname}} {{userdata.lastname}}</h3>
@@ -46,7 +46,7 @@
 		
 		<div class="row buttonPanel">
 			<div class="medium-4 medium-offset-3 small-offset-3 columns">
-				<button class="callout pageButtons" ng-class="{'alert': mouseover}" ng-init="mouseover = false" ng-mouseenter="mouseover = true" ng-mouseleave="mouseover = false">
+				<button ng-click="commutePage()" class="callout pageButtons" ng-class="{'alert': mouseover}" ng-init="mouseover = false" ng-mouseenter="mouseover = true" ng-mouseleave="mouseover = false">
 					<h5 class="buttonTitle">Commute Stats ></h5>
 					<p ng-show="mouseover" class="button-info">Graphs based on your commutes</p>
 				</button>
