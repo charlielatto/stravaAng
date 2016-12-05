@@ -1,0 +1,71 @@
+h1, h2, h3, h4, h5, p {
+	font-family: verdana, sans-serif;
+	font-weight:bold;
+}
+			
+.title-bar-title {
+	color:white;
+}
+		 
+footer{
+	margin-bottom: 0;
+	bottom: 0;
+	width: 100%;
+}
+			
+.top {
+	background-color: #fc4c02;
+}
+		
+.title {
+	text-align:center;
+	font-weight: bold;
+}
+
+.name {
+	font-weight:bold;
+}
+
+.profilepic {
+	margin-top:12px;
+	border-radius:20px;
+}
+	
+.user {
+	margin-top:5px;
+}
+
+.titlePanel {
+	margin-top:30px;
+}
+
+.buttonPanel {
+	margin-top:20px;
+	margin-bottom:30px;
+}
+
+.pageButtons {
+	width:250px;
+	height:200px;
+	text-align:left;
+	position:relative;
+	font-size:30px;
+	transition: all 1s;
+	background-color:#fc4c02;
+	color:white;
+}
+
+button.alert {
+	color:black;
+	border-radius:40px;
+}
+
+.buttonTitle {
+	position:absolute;
+	top:20px;
+	left:20px;
+}
+
+.button-info {
+	font-size:15px;
+}

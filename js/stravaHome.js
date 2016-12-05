@@ -11,7 +11,8 @@ app.controller('MainCtrl',[
 '$scope',
 '$location',
 '$http',
-function($scope,$location,$http){
+'stravaService',
+function($scope,$location,$http,stravaService){
 	
 	var searchObject = $location.search().code;
 		
@@ -48,3 +49,8 @@ function($scope,$location,$http){
 	
 	
 }]);
+
+app.service('stravaService',function($http){
+
+	
+});

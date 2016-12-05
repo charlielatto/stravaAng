@@ -9,35 +9,7 @@
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
 		<script src="js/stravaHome.js"></script>
 		<link rel="stylesheet" href="foundation-icons/foundation-icons.css" />
-		<style>
-			h1, h2, h3, h4, p {
-				font-family: verdana, sans-serif;
-			}
-			
-			.title-bar-title {
-				color:white;
-			}
-		 
-			footer{
-				margin-bottom: 0;
-				bottom: 0;
-				position: fixed;
-				width: 100%;
-			}
-			
-			.top {
-				background-color: #fc4c02;
-			}
-			
-			.title {
-				text-align:center;
-				font-weight: bold;
-			}
-			
-			.user {
-				margin-top:5px;
-			}
-		</style>
+		<link rel="stylesheet" href="css/style.css" />
 	</head>
 	<body ng-app="stravaHome" ng-controller="MainCtrl">
 	
@@ -55,10 +27,50 @@
 		
 		<div class="callout alert">
 			<div class="row">
-				<div class="small-4 small-centered large-centered column">
-					<h2 class="title">Strava Stats</h2>
-					
+				<div class="small-1 column small-offset-4">
+					<img class="profilepic" src="{{userdata.profile_medium}}" alt="profile pic">
 				</div>
+				<div class="small-4 column end">
+					<h3 class="name">{{userdata.firstname}} {{userdata.lastname}}</h3>
+					<span><strong>{{userdata.city}}, {{userdata.state}}, {{userdata.country}}</strong></span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row titlePanel">
+			<div class="medium-7 medium-offset-3 small-offset-3 columns">
+				<h4>What Stats are you interested in?</h4>
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row buttonPanel">
+			<div class="medium-4 medium-offset-3 small-offset-3 columns">
+				<button class="callout pageButtons" ng-class="{'alert': mouseover}" ng-init="mouseover = false" ng-mouseenter="mouseover = true" ng-mouseleave="mouseover = false">
+					<h5 class="buttonTitle">Commute Stats ></h5>
+					<p ng-show="mouseover" class="button-info">Graphs based on your commutes</p>
+				</button>
+			</div>
+			<div class="medium-4 columns end">
+				<button class="callout pageButtons" ng-class="{'alert': mouseover2}" ng-init="mouseover2 = false" ng-mouseenter="mouseover2 = true" ng-mouseleave="mouseover2 = false">
+					<h5 class="buttonTitle">Club Ride Stats ></h5>
+					<p ng-show="mouseover2" class="button-info">Graphs based on your Club rides</p>
+				</button>
+			</div>
+		</div>
+		
+		<div class="row buttonPanel">
+			<div class="medium-4 medium-offset-3 small-offset-3 columns">
+				<button class="callout pageButtons" ng-class="{'alert': mouseover3}" ng-init="mouseover3 = false" ng-mouseenter="mouseover3 = true" ng-mouseleave="mouseover3 = false">
+					<h5 class="buttonTitle">Overall Stats ></h5>
+					<p ng-show="mouseover3" class="button-info">Graphs based on all your rides</p>
+				</button>
+			</div>
+			<div class="medium-4 columns end">
+				<button class="callout pageButtons" ng-class="{'alert': mouseover4}" ng-init="mouseover4 = false" ng-mouseenter="mouseover4 = true" ng-mouseleave="mouseover4 = false">
+					<h5 class="buttonTitle">About ></h5>
+					<p ng-show="mouseover4" class="button-info">About this App</p>
+				</button>
 			</div>
 		</div>
 	
