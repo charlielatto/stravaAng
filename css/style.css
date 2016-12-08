@@ -30,6 +30,15 @@ footer{
 	margin-top:6px;
 	border-radius:20px;
 }
+
+.titlebarpic {
+	border-radius:35px;
+	max-height:37px;
+}
+
+.toprow{
+	margin-top:20px;
+}
 	
 .user {
 	margin-top:5px;
@@ -57,7 +66,7 @@ footer{
 
 button.alert {
 	color:black;
-	border-radius:40px;
+	border-radius:5px;
 }
 
 .buttonTitle {
@@ -68,4 +77,13 @@ button.alert {
 
 .button-info {
 	font-size:15px;
+}
+
+#commuteTitle{
+	margin-left:-30px;
+}
+
+.commutes{
+	max-height:350fpx;
+	overflow-y:auto;
 }

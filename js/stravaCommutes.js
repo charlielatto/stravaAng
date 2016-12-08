@@ -1,4 +1,4 @@
-var app = angular.module('stravaCommutes',[]);
+var app = angular.module('stravaCommutes',['amChartsDirective']);
 
 app.config(function($locationProvider) {
   $locationProvider.html5Mode({
@@ -13,13 +13,15 @@ app.controller('MainCtrl',[
 '$http',
 'stravaService',
 '$q',
-function($scope,$location,$http,stravaService,$q){
+'$timeout',
+function($scope,$location,$http,stravaService,$q,$timeout){
 	
 	var searchObject = $location.search().code;
 	var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 	$scope.months = [];
 	$scope.years = [];
 	$scope.weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat", "Sun"];
+	var countDeferred = $q.defer();
 		
 	$http({
 		method: 'POST',
@@ -29,6 +31,8 @@ function($scope,$location,$http,stravaService,$q){
 		$scope.auth_code = response.data.access_token;
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
+		$scope.renderChart();
+		console.log($scope.commuteCountChartOptions);
 	}, function errorCallback(response) {
 		console.log("error");
 	});
@@ -40,7 +44,7 @@ function($scope,$location,$http,stravaService,$q){
 		}).then(function successCallback(response) {
 			//console.log(response);	
 			$scope.userdata = response.data;
-			console.log(response.data);
+			//console.log(response.data);
 		}, function errorCallback(response) {
 			console.log("error");
 			console.log(response);
@@ -67,9 +71,40 @@ function($scope,$location,$http,stravaService,$q){
 			for (var i = 0; i < response.length; i++) {
 				$scope.monthsData.push(response[i].data);
 			}
+			$scope.monthCommutes = stravaService.lastMonth($scope.monthsData[11]);
+			$scope.monthCount = stravaService.allMonths($scope.monthsData,$scope.months);
+			countDeferred.resolve($scope.monthCount);
+			//console.log($scope.commuteCountChartOptions);
 		});
 		//console.log($scope.monthsData);
 	}
+	
+	$scope.renderChart = function(){
+		$scope.commuteCountChartOptions = {
+				data:countDeferred.promise,
+				type: "serial",
+
+				categoryField: "month",
+				chartScrollbar: {
+					enabled: true
+				},
+				categoryAxis: {
+					gridPosition: "start",
+					parseDates: false
+				},
+				valueAxes: [{
+					title: "Month"
+				}],
+				graphs: [{
+					type: "line",
+					title: "Commutes",
+					valueField: "count",
+					fillAlphas: 1
+				}]
+			};
+	};
+	
+
 	
 	$scope.getMonthIndex = function(index) {
 		var month = $scope.months[index];
@@ -101,9 +136,50 @@ function($scope,$location,$http,stravaService,$q){
 			$scope.years[index] = year; 
 		}
 	}
+	
+	$scope.miles = function(metres){
+		return (metres*0.000621371192).toFixed(2);
+	}
+	
+	$scope.mph = function(metres){
+		var milesPerSecond = metres*0.000621371192;
+		return ((milesPerSecond*60)*60).toFixed(2);
+	}
+	
+	$scope.backButton = function(){
+		location.href = 'home.html?code='+searchObject;
+	}
 }]);
 
 app.service('stravaService',function($http){
+	this.lastMonth = function(data){
+		var commutes = [];
+		for(var i = 0; i < data.length; i++){
+			if(data[i].commute){
+				commutes.push(data[i]);
+			}
+		}
+		return commutes;
+	}
 	
+	this.allMonths = function(data,monthNames){
+		var months = [];
+		
+		for(var j = 0; j < 12; j++){
+			var commutes = {};
+			commutes.count=0;
+			commutes.month=monthNames[j];
+			var rides = data[j];
+			for(var i = 0; i < rides.length; i++){
+				if(rides[i].commute){
+					//commutes.push(rides[i]);
+					commutes.count++;
+				}
+			}
+			months.push(commutes);
+		}
+		//console.log(months);
+		return months;
+	}
 	
 });
