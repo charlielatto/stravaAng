@@ -104,7 +104,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					type: "line",
 					balloon:{
 						drop:true,
-						maxWidth:45,
+						maxWidth:55,
 						pointerOrientation: "right",
 						adjustBorderColor:false,
 						color:"#ffffff"
