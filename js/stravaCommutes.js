@@ -27,7 +27,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 			return {
 				data: countDeferred.promise,
 				type: "serial",
-
+				marginTop:5,
 				categoryField: "month",
 
 				valueAxes: [{

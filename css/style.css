@@ -87,3 +87,7 @@ button.alert {
 	max-height:350fpx;
 	overflow-y:auto;
 }
+
+#commuteCountChart {
+	max-height:300px;
+}
