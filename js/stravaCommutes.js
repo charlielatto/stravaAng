@@ -27,22 +27,23 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 			return {
 				data: countDeferred.promise,
 				type: "serial",
+				theme: "light",
 				categoryField: "month",
-				chartScrollbar: {
-					enabled: true
-				},
 				categoryAxis: {
-					gridPosition: "start",
-					parseDates: false
+					axisAlpha: 2,
+					minHorizontalGap: 60,
+					gridAlpha:0
 				},
 				valueAxes: [{
 					title: "Count"
 				}],
 				graphs: [{
 					type: "line",
+					bullet: "round",
+					bulletSize: 8,
 					title: "Commutes",
 					valueField: "count",
-					fillAlphas: 0.1
+					lineThickness: 2
 				}]
 			}
 		},1000);	
