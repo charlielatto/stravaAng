@@ -79,7 +79,10 @@ function($scope,$location,$http,stravaService,$q){
 	}
 	
 	$scope.renderChart = function(){
-		console.log(countDeferred.promise);
+		countDeferred.promise.then(function(data){
+			console.log("here");
+			console.log(data);
+		});
 		$scope.commuteCountChartOptions = {
 				data:countDeferred.promise,
 				type: "serial",
