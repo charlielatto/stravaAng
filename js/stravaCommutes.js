@@ -13,8 +13,7 @@ app.controller('MainCtrl',[
 '$http',
 'stravaService',
 '$q',
-'$timeout',
-function($scope,$location,$http,stravaService,$q,$timeout){
+function($scope,$location,$http,stravaService,$q){
 	
 	var searchObject = $location.search().code;
 	var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -80,6 +79,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	}
 	
 	$scope.renderChart = function(){
+		console.log(countDeferred.promise);
 		$scope.commuteCountChartOptions = {
 				data:countDeferred.promise,
 				type: "serial",
