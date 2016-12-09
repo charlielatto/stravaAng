@@ -45,6 +45,10 @@ function($scope,$location,$http,stravaService){
 		location.href = 'commutes.html?code='+searchObject;
 	}
 	
+	$scope.commutePage = function(){
+		location.href = 'club.html?code='+searchObject;
+	}
+	
 	$scope.foundation = function(){
 		$(document).foundation();
 	}

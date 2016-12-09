@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<title>Strava Commute Stats</title>
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css">
+		<script src="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+		<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+		<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+		<script src="js/stravaClub.js"></script>
+		<script src="js/amChartsDirective.js"></script>
+		<link rel="stylesheet" href="foundation-icons/foundation-icons.css" />
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+	<body ng-app="stravaClub" ng-controller="MainCtrl">
+	
+		<div class="title-bar top">
+			<div class="title-bar-left">
+				<a href="index.html" target="_self"><h4 class="title-bar-title">Strava Stats</h4></a>
+			</div>
+			<div class="title-bar-right">
+				<div class="user">
+					<img class="titlebarpic" ng-src="{{userdata.profile_medium}}" alt="profile pic">
+					<i class="fi-torso"></i>
+					<span>{{userdata.firstname}} {{userdata.lastname}}</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row toprow">
+			<div class="column small-5">
+				<button class="alert button" type="button" ng-click="backButton()" ng-class="{'hollow': !mouseover}" ng-init="mouseover = false" ng-mouseenter="mouseover = true" ng-mouseleave="mouseover = false">< Back</button>
+			</div>
+			<div class="column small-4 end">
+				<h3 id="commuteTitle">Club Ride Stats</h3>
+			</div>
+			<hr>
+		</div>
+		
+		<div class="row">
+			<p>First I need to know some things about your club rides</p>
+			<form ng-submit="getClubRides()">
+				<label>What day do you ride on?
+					<select ng-model="clubDay">
+						<option value="saturday">Saturday</option>
+						<option value="sunday">Sunday</option>
+					</select>
+				</label>
+				<label>What time do you start your ride?
+					<select ng-model="clubTime">
+						<option value="6">6-8am</option>
+						<option value="8">8-10am</option>
+						<option value="10">10-12pm</option>
+						<option value="12">12-2pm</option>
+					</select>
+				</label>
+				<label>Finally, do you put anything in your Strava ride titles? 
+					<input ng-model="clubText" type="text" placeholder="club ride">
+				</label>
+				<p class="help-text" id="ClubHelpText">This needs to be in <strong>all</strong> of your club ride titles.</p>
+				<button class="button" type="submit" value="Submit">Find my Rides!</button>
+			</form>
+		</div>
+		
+		<footer class="footer">
+			<div class="title-bar">
+				<div class="title-bar-left">
+					<div class="container-footer">
+						<a href="http://labs.strava.com/" id="powered_by_strava" rel="nofollow">
+							<img class="poweredimg" src="img/api_logo_pwrdBy_strava_stack_light.png" alt="Powered By Strava" width="116" height="50" />
+						</a>
+					<div>
+				</div>
+
+			</div>
+		</footer>
+	</body>
+</html>
