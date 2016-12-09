@@ -60,6 +60,8 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					type: "line",
 					balloon:{
 						drop:true,
+						maxWidth:45,
+						pointerOrientation: "right",
 						adjustBorderColor:false,
 						color:"#ffffff"
 					},
@@ -67,7 +69,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
-					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[average_speed]]</b> mph</span>",
+					balloonText: "<span style='font-size:14px;'><b>[[average_speed]]</b> mph</span>",
 					valueField: "average_speed"
 				}]
 			}
