@@ -27,7 +27,7 @@ angular.module('amChartsDirective', []).directive('amChart', ['$q', function ($q
 		console.log("here");
 		console.log(options);
         if (options.data) {
-			console.log(option.data);
+			console.log(options.data);
           var renderChart = function (amChartOptions) {
             var o = amChartOptions || options;
 
