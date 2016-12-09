@@ -41,18 +41,18 @@
 		
 		<div class="row">
 			<p>First I need to know some things about your club rides</p>
-			<form ng-submit="getClubRides()">
+			<form ng-submit="getClubRides()" data-abide novalidate>
 				<div class="small-4 column">
 					<label>What day do you ride on?
-						<select ng-model="clubDay">
-							<option value="saturday">Saturday</option>
-							<option value="sunday">Sunday</option>
+						<select ng-model="clubDay" ng-disabled="!contentHidden" required>
+							<option value="Saturday">Saturday</option>
+							<option value="Sunday">Sunday</option>
 						</select>
 					</label>
 				</div>
 				<div class="small-4 column">
 					<label>What time do you start your ride?
-						<select ng-model="clubTime">
+						<select ng-model="clubTime" ng-disabled="!contentHidden" required>
 							<option value="6">6-8am</option>
 							<option value="8">8-10am</option>
 							<option value="10">10-12pm</option>
@@ -63,15 +63,26 @@
 				</div>
 				<div class="small-4 column">
 					<label>Finally, do you put anything in your Strava ride titles? 
-						<input ng-model="clubText" type="text" placeholder="e.g. club ride">
+						<input ng-model="clubText" type="text" placeholder="e.g. club ride" ng-disabled="!contentHidden">
 					</label>
 					<p class="help-text" id="ClubHelpText">This needs to be in <b>all</b> of your club ride titles.</p>
 				</div>
 				<div class="small-2 small-centered column">
-					<button class="alert button" type="submit" value="Submit">Find my Rides!</button>
+					<button ng-disabled="!contentHidden || !clubTime || !clubDay" class="alert button" type="submit" value="Submit">Find my Rides!</button>
 				</div>
 			</form>
 			<hr>
+		</div>
+		
+		<div class="content" ng-hide="contentHidden">
+			<div class="row">
+				<div class="small-7 column">
+					<h4>{{clubDay}} rides starting around {{clubTime}} o'clock</h4>
+				</div>
+				<div class="small-1 column">
+					<button class="button" type="button" ng-click="resetClub()">Reset</button>
+				</div>
+			</div>
 		</div>
 		
 		<footer class="footer">

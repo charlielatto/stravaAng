@@ -40,7 +40,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					type: "line",
 					balloon:{
 						drop:true,
-						maxWidth:40,
+						maxWidth:65,
 						pointerOrientation: "right",
 						adjustBorderColor:false,
 						color:"#ffffff"
@@ -49,7 +49,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
-					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[count]]</b></span>",
+			balloonText: "<span style='font-size:14px;'>[[month]] <b>[[count]] [[distance]]mi</b></span>",
 					valueField: "count"
 				}]
 			}
@@ -87,34 +87,71 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 			}
 		},0);
 		
-	$scope.commuteDistanceChartOptions = $timeout(function(){ 
+	$scope.commuteTimeChartOptions = $timeout(function(){ 
 			return {
 				data: countDeferred.promise,
 				type: "serial",
 				marginTop:5,
 				categoryField: "month",
 				valueAxes: [{
-					title: "Distance (miles)"
+					id: "v1",
+					title: "Avg Morning Start",
+					position:"left",
+					axisColor: "#d9534f",
+					duration: "mm",
+					durationUnits: {
+						hh: ":",
+						mm: ""
+					}
+				},{
+					id: "v2",
+					title: "Avg Evening Start",
+					position:"right",
+					axisColor: "#f0ad4e",
+					duration: "mm",
+					durationUnits: {
+						hh: ":",
+						mm: ""
+					}
 				}],
 				balloon: {
 					borderThickness: 1,
 					shadowAlpha: 0
 				},
 				graphs: [{
+					valueAxis: "v1",
 					type: "line",
 					balloon:{
 						drop:true,
-						maxWidth:55,
+						maxWidth:60,
 						pointerOrientation: "right",
 						adjustBorderColor:false,
 						color:"#ffffff"
 					},
 					bullet: "round",
+					lineColor: "#d9534f",
 					bulletSize: 8,
-					title: "Commutes",
+					title: "Time",
 					type: "smoothedLine",
-					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[distance]]</b> miles</span>",
-					valueField: "distance"
+					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[morningStartString]]</b></span>",
+					valueField: "morningStart"
+				},{
+					valueAxis: "v2",
+					type: "line",
+					balloon:{
+						drop:true,
+						maxWidth:60,
+						pointerOrientation: "left",
+						adjustBorderColor:false,
+						color:"#ffffff"
+					},
+					bullet: "round",
+					lineColor: "#f0ad4e",
+					bulletSize: 8,
+					title: "Time",
+					type: "smoothedLine",
+					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[eveningStartString]]</b></span>",
+					valueField: "eveningStart"
 				}]
 			}
 		},0);
@@ -243,21 +280,52 @@ app.service('stravaService',function($http){
 			commutes.month=monthNames[j];
 			var totalspeed = 0;
 			var totaldistance = 0;
+			var totalMorningStartTime = 0;
+			var morningCount = 0;
+			var eveningCount = 0;
+			var totalEveningStartTime = 0;
 			var rides = data[j];
 			for(var i = 0; i < rides.length; i++){
 				if(rides[i].commute){
 					//commutes.push(rides[i]);
 					totalspeed += rides[i].average_speed;
 					totaldistance += rides[i].distance;
+					var start = new Date(rides[i].start_date);
+					if(start.getHours() < 12){
+						totalMorningStartTime += this.getTotalSeconds(start);
+						morningCount++;
+					} else {
+						eveningCount++;
+						totalEveningStartTime += this.getTotalSeconds(start);
+					}
 					commutes.count++;
 				}
 			}
+			commutes.morningStart = ((totalMorningStartTime/morningCount)/60).toFixed(0);
+			commutes.eveningStart = ((totalEveningStartTime/eveningCount)/60).toFixed(0);
+			commutes.morningStartString = this.secondsToHms(totalMorningStartTime/morningCount);
+			commutes.eveningStartString = this.secondsToHms(totalEveningStartTime/eveningCount);
 			commutes.average_speed = this.mph((totalspeed/commutes.count));
 			commutes.distance = this.miles(totaldistance);
 			months.push(commutes);
 		}
 		//console.log(months);
 		return months;
+	}
+	
+	this.getTotalSeconds = function(date){
+		var hours = date.getHours();
+		var mins = date.getMinutes();
+		var seconds = ((hours * 60)*60) + (mins * 60);
+		return seconds;
+	}
+	
+	this.secondsToHms = function(d) {
+		d = Number(d);
+		var h = Math.floor(d / 3600);
+		var m = Math.floor(d % 3600 / 60);
+		var s = Math.floor(d % 3600 % 60);
+		return ((h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s); 
 	}
 	
 	this.miles = function(metres){

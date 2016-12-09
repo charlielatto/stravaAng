@@ -22,6 +22,12 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	$scope.years = [];
 	$scope.weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat", "Sun"];
 	var countDeferred = $q.defer();	
+	$scope.contentHidden = true;
+	$scope.clubDay = "";
+	$scope.clubTime = "";
+	$scope.clubText= "";
+	
+
 	
 	$http({
 		method: 'POST',
@@ -103,7 +109,15 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	}
 	
 	$scope.getClubRides = function(){
-		console.log(clubDay + " " + clubTime + " " + clubText);
+		console.log($scope.clubDay + " " + $scope.clubTime + " " + $scope.clubText);
+		$scope.contentHidden = false;
+	}
+	
+	$scope.resetClub = function(){
+		$scope.clubDay = "";
+		$scope.clubTime = "";
+		$scope.clubText= "";
+		$scope.contentHidden = true;
 	}
 	
 	$scope.miles = function(metres){
@@ -120,9 +134,12 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	
 	$scope.foundation = function(){
 		$(document).foundation();
+
 	}
 	
 	$scope.foundation();
+	
+	
 	
 }]);
 
