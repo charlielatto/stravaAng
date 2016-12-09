@@ -27,13 +27,9 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 			return {
 				data: countDeferred.promise,
 				type: "serial",
-				theme: "light",
+
 				categoryField: "month",
-				categoryAxis: {
-					axisAlpha: 2,
-					minHorizontalGap: 60,
-					gridAlpha:0
-				},
+
 				valueAxes: [{
 					title: "Count"
 				}],
@@ -42,8 +38,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					bullet: "round",
 					bulletSize: 8,
 					title: "Commutes",
-					valueField: "count",
-					lineThickness: 2
+					valueField: "count"
 				}]
 			}
 		},1000);	
@@ -60,7 +55,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	}, function errorCallback(response) {
 		console.log("error");
 	});
-	console.log(countDeferred.promise);
+	//console.log(countDeferred.promise);
 	
 	
 
