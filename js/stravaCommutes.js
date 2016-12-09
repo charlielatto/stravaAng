@@ -29,7 +29,6 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 				type: "serial",
 				marginTop:5,
 				categoryField: "month",
-
 				valueAxes: [{
 					title: "Count"
 				}],
@@ -42,7 +41,47 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					valueField: "count"
 				}]
 			}
-		},0);	
+		},0);
+
+	$scope.commuteSpeedChartOptions = $timeout(function(){ 
+			return {
+				data: countDeferred.promise,
+				type: "serial",
+				marginTop:5,
+				categoryField: "month",
+				valueAxes: [{
+					title: "Count"
+				}],
+				graphs: [{
+					type: "line",
+					bullet: "round",
+					bulletSize: 8,
+					title: "Commutes",
+					type: "smoothedLine",
+					valueField: "average_speed"
+				}]
+			}
+		},0);
+		
+	$scope.commuteDistanceChartOptions = $timeout(function(){ 
+			return {
+				data: countDeferred.promise,
+				type: "serial",
+				marginTop:5,
+				categoryField: "month",
+				valueAxes: [{
+					title: "Count"
+				}],
+				graphs: [{
+					type: "line",
+					bullet: "round",
+					bulletSize: 8,
+					title: "Commutes",
+					type: "smoothedLine",
+					valueField: "distance"
+				}]
+			}
+		},0);
 		
 	$http({
 		method: 'POST',
@@ -52,7 +91,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		$scope.auth_code = response.data.access_token;
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
-		//console.log($scope.commuteCountChartOptions);
+		console.log($scope.commuteCountChartOptions);
 	}, function errorCallback(response) {
 		console.log("error");
 	});
@@ -136,12 +175,11 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	}
 	
 	$scope.miles = function(metres){
-		return (metres*0.000621371192).toFixed(2);
+		return stravaService.miles(metres);
 	}
 	
 	$scope.mph = function(metres){
-		var milesPerSecond = metres*0.000621371192;
-		return ((milesPerSecond*60)*60).toFixed(2);
+		return stravaService.mph(metres);
 	}
 	
 	$scope.backButton = function(){
@@ -167,17 +205,32 @@ app.service('stravaService',function($http){
 			var commutes = {};
 			commutes.count=0;
 			commutes.month=monthNames[j];
+			var totalspeed = 0;
+			var totaldistance = 0;
 			var rides = data[j];
 			for(var i = 0; i < rides.length; i++){
 				if(rides[i].commute){
 					//commutes.push(rides[i]);
+					totalspeed += rides[i].average_speed;
+					totaldistance += rides[i].distance;
 					commutes.count++;
 				}
 			}
+			commutes.average_speed = this.mph((totalspeed/commutes.count));
+			commutes.distance = this.miles(totaldistance);
 			months.push(commutes);
 		}
 		//console.log(months);
 		return months;
+	}
+	
+	this.miles = function(metres){
+		return (metres*0.000621371192).toFixed(2);
+	}
+	
+	this.mph = function(metres){
+		var milesPerSecond = metres*0.000621371192;
+		return ((milesPerSecond*60)*60).toFixed(2);
 	}
 	
 });

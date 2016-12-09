@@ -84,10 +84,10 @@ button.alert {
 }
 
 .commutes{
-	max-height:350fpx;
+	max-height:350px;
 	overflow-y:auto;
 }
 
-#commuteCountChart {
+.chart {
 	max-height:350px;
 }

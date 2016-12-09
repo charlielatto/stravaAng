@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Strava</title>
+		<title>Strava Commute Stats</title>
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css">
@@ -67,18 +67,18 @@
 		
 		<div class="row">
 			<h5>Commutes per month</h5>
-			<am-chart id="commuteCountChart" options="commuteCountChartOptions" ></am-chart>
+			<am-chart id="commuteCountChart" class="chart" options="commuteCountChartOptions" ></am-chart>
 			<hr>
 		</div>
 		
 		<div class="row">
 			<h5>Commutes speed per month</h5>
-			
+			<am-chart id="commuteSpeedChart" class="chart" options="commuteSpeedChartOptions" ></am-chart>
 			<hr>
 		</div>
 		<div class="row">
-			<h5>Commutes start time per month</h5>
-			
+			<h5>Commutes distance per month</h5>
+			<am-chart id="commuteDistanceChart" class="chart" options="commuteDistanceChartOptions" ></am-chart>
 			<hr>
 		</div>
 		
