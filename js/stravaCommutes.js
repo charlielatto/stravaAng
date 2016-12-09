@@ -49,7 +49,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
-					balloonText: "<span style='font-size:14px;'><b>[[count]]</b></span>",
+					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[count]]</b></span>",
 					valueField: "count"
 				}]
 			}
@@ -81,7 +81,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
-					balloonText: "<span style='font-size:14px;'><b>[[average_speed]]</b> mph</span>",
+					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[average_speed]]</b> mph</span>",
 					valueField: "average_speed"
 				}]
 			}
@@ -113,7 +113,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
-					balloonText: "<span style='font-size:14px;'><b>[[distance]]</b> miles</span>",
+					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[distance]]</b> miles</span>",
 					valueField: "distance"
 				}]
 			}
