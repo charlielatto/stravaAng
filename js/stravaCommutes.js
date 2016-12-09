@@ -52,7 +52,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		$scope.auth_code = response.data.access_token;
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
-		$scope.commuteCountChartOptions.data = $timeout(countDeferred.promise,0);
+		$scope.commuteCountChartOptions.data = $timeout(function(){ return countDeferred.promise;},0);
 		//countDeferred.promise.then(function(data){
 		//	$scope.commuteCountChartOptions.data = data;
 		//});
