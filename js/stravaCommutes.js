@@ -63,7 +63,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
-					balloonText: "[[month]]<span style='font-size:14px;'><b>[[average_speed]]</b> mph</span>"
+					balloonText: "[[month]]<span style='font-size:14px;'><b>[[average_speed]]</b> mph</span>",
 					valueField: "average_speed"
 				}]
 			}
