@@ -30,7 +30,9 @@ function($scope,$location,$http,stravaService,$q){
 		$scope.auth_code = response.data.access_token;
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
-		$scope.commuteCountChartOptions = $scope.renderChart();
+		$scope.commuteCountChartOptions = $scope.renderChart().then(function(data){
+			return data;
+		});
 		console.log($scope.commuteCountChartOptions);
 	}, function errorCallback(response) {
 		console.log("error");
