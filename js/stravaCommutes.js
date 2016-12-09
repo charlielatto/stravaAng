@@ -30,7 +30,7 @@ function($scope,$location,$http,stravaService,$q){
 		$scope.auth_code = response.data.access_token;
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
-		$scope.renderChart();
+		$scope.commuteCountChartOptions = $scope.renderChart();
 		console.log($scope.commuteCountChartOptions);
 	}, function errorCallback(response) {
 		console.log("error");
@@ -79,8 +79,8 @@ function($scope,$location,$http,stravaService,$q){
 	}
 	
 	$scope.renderChart = function(){
-		countDeferred.promise.then(function(promData){
-			$scope.commuteCountChartOptions = {
+		return countDeferred.promise.then(function(promData){
+			var commuteCountChartOptions = {
 				data:promData,
 				type: "serial",
 
@@ -102,6 +102,8 @@ function($scope,$location,$http,stravaService,$q){
 					fillAlphas: 1
 				}]
 			};
+			return commuteCountChartOptions
+			//console.log($scope.commuteCountChartOptions);
 		});
 	};
 	
