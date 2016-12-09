@@ -21,6 +21,27 @@ function($scope,$location,$http,stravaService,$q){
 	$scope.years = [];
 	$scope.weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat", "Sun"];
 	var countDeferred = $q.defer();
+	$scope.commuteCountChartOptions = {
+				type: "serial",
+				categoryField: "month",
+				chartScrollbar: {
+					enabled: true
+				},
+				categoryAxis: {
+					gridPosition: "start",
+					parseDates: false
+				},
+				valueAxes: [{
+					title: "Month"
+				}],
+				graphs: [{
+					type: "line",
+					title: "Commutes",
+					valueField: "count",
+					fillAlphas: 1
+				}]
+			};
+	
 		
 	$http({
 		method: 'POST',
@@ -30,9 +51,30 @@ function($scope,$location,$http,stravaService,$q){
 		$scope.auth_code = response.data.access_token;
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
-		$scope.commuteCountChartOptions = $scope.renderChart().then(function(data){
-			return data;
-		});
+		countDeferred.promise.then(function(data){
+			$scope.commuteCountChartOptions = {
+				data:data,
+				type: "serial",
+
+				categoryField: "month",
+				chartScrollbar: {
+					enabled: true
+				},
+				categoryAxis: {
+					gridPosition: "start",
+					parseDates: false
+				},
+				valueAxes: [{
+					title: "Month"
+				}],
+				graphs: [{
+					type: "line",
+					title: "Commutes",
+					valueField: "count",
+					fillAlphas: 1
+				}]
+			};
+		})
 		console.log($scope.commuteCountChartOptions);
 	}, function errorCallback(response) {
 		console.log("error");
@@ -79,35 +121,6 @@ function($scope,$location,$http,stravaService,$q){
 		});
 		//console.log($scope.monthsData);
 	}
-	
-	$scope.renderChart = function(){
-		return countDeferred.promise.then(function(promData){
-			var commuteCountChartOptions = {
-				data:promData,
-				type: "serial",
-
-				categoryField: "month",
-				chartScrollbar: {
-					enabled: true
-				},
-				categoryAxis: {
-					gridPosition: "start",
-					parseDates: false
-				},
-				valueAxes: [{
-					title: "Month"
-				}],
-				graphs: [{
-					type: "line",
-					title: "Commutes",
-					valueField: "count",
-					fillAlphas: 1
-				}]
-			};
-			return commuteCountChartOptions
-			//console.log($scope.commuteCountChartOptions);
-		});
-	};
 	
 
 	
