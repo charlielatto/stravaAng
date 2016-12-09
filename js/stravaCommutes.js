@@ -50,14 +50,20 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 				marginTop:5,
 				categoryField: "month",
 				valueAxes: [{
-					title: "Count"
+					title: "Speed (MPH)"
 				}],
 				graphs: [{
 					type: "line",
+					balloon:{
+						drop:true,
+						adjustBorderColor:false,
+						color:"#ffffff"
+					},
 					bullet: "round",
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
+					balloonText: "[[month]]<span style='font-size:14px;'><b>[[average_speed]]</b> mph</span>"
 					valueField: "average_speed"
 				}]
 			}
@@ -70,7 +76,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 				marginTop:5,
 				categoryField: "month",
 				valueAxes: [{
-					title: "Count"
+					title: "Distance (miles)"
 				}],
 				graphs: [{
 					type: "line",
