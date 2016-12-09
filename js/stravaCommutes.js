@@ -13,7 +13,8 @@ app.controller('MainCtrl',[
 '$http',
 'stravaService',
 '$q',
-function($scope,$location,$http,stravaService,$q){
+'$timeout',
+function($scope,$location,$http,stravaService,$q,$timeout){
 	
 	var searchObject = $location.search().code;
 	var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -51,9 +52,10 @@ function($scope,$location,$http,stravaService,$q){
 		$scope.auth_code = response.data.access_token;
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
-		countDeferred.promise.then(function(data){
-			$scope.commuteCountChartOptions.data = data;
-		});
+		$scope.commuteCountChartOptions.data = $timeout(countDeferred.promise,0);
+		//countDeferred.promise.then(function(data){
+		//	$scope.commuteCountChartOptions.data = data;
+		//});
 		console.log($scope.commuteCountChartOptions);
 	}, function errorCallback(response) {
 		console.log("error");

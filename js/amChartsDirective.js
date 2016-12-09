@@ -1,7 +1,7 @@
 'use strict';
 // 1.0.4
 
-angular.module('amChartsDirective', []).directive('amChart', ['$q', function ($q) {
+angular.module('amChartsDirective', []).directive('amChart', ['$q','$timeout', function ($q) {
   return {
     restrict: 'E',
     replace: true,
@@ -20,8 +20,8 @@ angular.module('amChartsDirective', []).directive('amChart', ['$q', function ($q
       $el.attr('id', id);
       var chart;
       $scope.chart = chart;
-
-      // allow $scope.options to be a promise
+	
+	  // allow $scope.options to be a promise
       $q.when($scope.options).then(function(options){
         // we can't render a chart without any data
         if (options.data) {
