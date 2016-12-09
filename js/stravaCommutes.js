@@ -32,12 +32,24 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 				valueAxes: [{
 					title: "Count"
 				}],
+				balloon: {
+					borderThickness: 1,
+					shadowAlpha: 0
+				},
 				graphs: [{
 					type: "line",
+					balloon:{
+						drop:true,
+						maxWidth:40,
+						pointerOrientation: "right",
+						adjustBorderColor:false,
+						color:"#ffffff"
+					},
 					bullet: "round",
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
+					balloonText: "<span style='font-size:14px;'><b>[[count]]</b></span>",
 					valueField: "count"
 				}]
 			}
@@ -84,12 +96,24 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 				valueAxes: [{
 					title: "Distance (miles)"
 				}],
+				balloon: {
+					borderThickness: 1,
+					shadowAlpha: 0
+				},
 				graphs: [{
 					type: "line",
+					balloon:{
+						drop:true,
+						maxWidth:45,
+						pointerOrientation: "right",
+						adjustBorderColor:false,
+						color:"#ffffff"
+					},
 					bullet: "round",
 					bulletSize: 8,
 					title: "Commutes",
 					type: "smoothedLine",
+					balloonText: "<span style='font-size:14px;'><b>[[distance]]</b> miles</span>",
 					valueField: "distance"
 				}]
 			}
