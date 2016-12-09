@@ -52,29 +52,8 @@ function($scope,$location,$http,stravaService,$q){
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
 		countDeferred.promise.then(function(data){
-			$scope.commuteCountChartOptions = {
-				data:data,
-				type: "serial",
-
-				categoryField: "month",
-				chartScrollbar: {
-					enabled: true
-				},
-				categoryAxis: {
-					gridPosition: "start",
-					parseDates: false
-				},
-				valueAxes: [{
-					title: "Month"
-				}],
-				graphs: [{
-					type: "line",
-					title: "Commutes",
-					valueField: "count",
-					fillAlphas: 1
-				}]
-			};
-		})
+			$scope.commuteCountChartOptions.data = data;
+		});
 		console.log($scope.commuteCountChartOptions);
 	}, function errorCallback(response) {
 		console.log("error");
