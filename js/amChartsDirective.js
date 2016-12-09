@@ -24,10 +24,7 @@ angular.module('amChartsDirective', []).directive('amChart', ['$q', function ($q
 	  // allow $scope.options to be a promise
       $q.when($scope.options).then(function(options){
         // we can't render a chart without any data
-		console.log("here");
-		console.log(options);
         if (options.data) {
-			console.log(options.data);
           var renderChart = function (amChartOptions) {
             var o = amChartOptions || options;
 

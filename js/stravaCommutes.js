@@ -21,47 +21,8 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	$scope.months = [];
 	$scope.years = [];
 	$scope.weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat", "Sun"];
-	var countDeferred = $q.defer();
-	/*$scope.commuteCountChartOptions = {
-				type: "serial",
-				categoryField: "month",
-				chartScrollbar: {
-					enabled: true
-				},
-				categoryAxis: {
-					gridPosition: "start",
-					parseDates: false
-				},
-				valueAxes: [{
-					title: "Month"
-				}],
-				graphs: [{
-					type: "line",
-					title: "Commutes",
-					valueField: "count",
-					fillAlphas: 1
-				}]
-			};*/
-	
+	var countDeferred = $q.defer();	
 		
-	$http({
-		method: 'POST',
-		url: "php/form.php?code="+searchObject
-	}).then(function successCallback(response) {
-		//console.log(response);
-		$scope.auth_code = response.data.access_token;
-		$scope.loadProfile($scope.auth_code);
-		$scope.get12monthData($scope.auth_code);
-
-		//countDeferred.promise.then(function(data){
-		//	$scope.commuteCountChartOptions.data = data;
-		//});
-		console.log($scope.commuteCountChartOptions);
-	}, function errorCallback(response) {
-		console.log("error");
-	});
-	console.log(countDeferred.promise);
-	
 	$scope.commuteCountChartOptions = $timeout(function(){ 
 			return {
 				data: countDeferred.promise,
@@ -75,16 +36,32 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					parseDates: false
 				},
 				valueAxes: [{
-					title: "Month"
+					title: "Count"
 				}],
 				graphs: [{
 					type: "line",
 					title: "Commutes",
 					valueField: "count",
-					fillAlphas: 1
+					fillAlphas: 0.1
 				}]
 			}
-		},1000);
+		},1000);	
+		
+	$http({
+		method: 'POST',
+		url: "php/form.php?code="+searchObject
+	}).then(function successCallback(response) {
+		//console.log(response);
+		$scope.auth_code = response.data.access_token;
+		$scope.loadProfile($scope.auth_code);
+		$scope.get12monthData($scope.auth_code);
+		//console.log($scope.commuteCountChartOptions);
+	}, function errorCallback(response) {
+		console.log("error");
+	});
+	console.log(countDeferred.promise);
+	
+	
 
 	$scope.loadProfile = function(code){
 		$http({
