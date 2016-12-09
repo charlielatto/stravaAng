@@ -38,6 +38,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					bullet: "round",
 					bulletSize: 8,
 					title: "Commutes",
+					type: "smoothedLine",
 					valueField: "count"
 				}]
 			}
