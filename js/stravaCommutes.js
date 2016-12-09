@@ -79,12 +79,9 @@ function($scope,$location,$http,stravaService,$q){
 	}
 	
 	$scope.renderChart = function(){
-		countDeferred.promise.then(function(data){
-			console.log("here");
-			console.log(data);
-		});
-		$scope.commuteCountChartOptions = {
-				data:countDeferred.promise,
+		countDeferred.promise.then(function(promData){
+			$scope.commuteCountChartOptions = {
+				data:promData,
 				type: "serial",
 
 				categoryField: "month",
@@ -105,6 +102,7 @@ function($scope,$location,$http,stravaService,$q){
 					fillAlphas: 1
 				}]
 			};
+		});
 	};
 	
 
