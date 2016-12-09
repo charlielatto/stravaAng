@@ -42,7 +42,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					valueField: "count"
 				}]
 			}
-		},1000);	
+		},0);	
 		
 	$http({
 		method: 'POST',
