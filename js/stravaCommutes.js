@@ -58,7 +58,7 @@ function($scope,$location,$http,stravaService,$q){
 	}, function errorCallback(response) {
 		console.log("error");
 	});
-	
+
 	$scope.loadProfile = function(code){
 		$http({
 			method: 'jsonp',
