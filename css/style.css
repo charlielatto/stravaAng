@@ -83,8 +83,8 @@ button.alert {
 	margin-left:-30px;
 }
 
-.commutes{
-	max-height:350px;
+.commuteTable{
+	height:350px;
 	overflow-y:auto;
 }
 
