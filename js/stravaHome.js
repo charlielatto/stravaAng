@@ -49,6 +49,10 @@ function($scope,$location,$http,stravaService){
 		location.href = 'club.html?code='+searchObject;
 	}
 	
+	$scope.overallPage = function(){
+		location.href = 'overall.html?code='+searchObject;
+	}
+	
 	$scope.foundation = function(){
 		$(document).foundation();
 	}
