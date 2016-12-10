@@ -1,4 +1,4 @@
-var app = angular.module('stravaClub',['amChartsDirective']);
+var app = angular.module('stravaClub',['amChartsDirective','leaflet-directive']);
 
 app.config(function($locationProvider) {
   $locationProvider.html5Mode({
@@ -16,11 +16,20 @@ app.controller('MainCtrl',[
 '$timeout',
 function($scope,$location,$http,stravaService,$q,$timeout){
 	
+	
+	requirejs.config({
+		baseUrl: 'js',
+		paths: {
+			polyline: 'polyline'
+		}
+	});
+
+	//var polyline = require('polyline');
 	var searchObject = $location.search().code;
 	var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 	$scope.months = [];
 	$scope.years = [];
-	$scope.weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat", "Sun"];
+	$scope.weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 	var countDeferred = $q.defer();	
 	$scope.contentHidden = true;
 	$scope.clubDay = "";
@@ -111,6 +120,38 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	$scope.getClubRides = function(){
 		console.log($scope.clubDay + " " + $scope.clubTime + " " + $scope.clubText);
 		$scope.contentHidden = false;
+		$scope.clubrides = stravaService.getClubRides($scope.monthsData,$scope.clubDay,$scope.clubTime,$scope.clubText,$scope.weekdays);
+		//console.log($scope.clubrides);	
+		$scope.maps = [];
+		
+		for(var i = 0; i < $scope.clubrides.length; i++){
+			$scope.maps.push(polyline.decode($scope.clubrides[i].map.summary_polyline));
+		}
+		//console.log($scope.maps[0]);
+		var mapLatLongs = stravaService.convertToObject($scope.maps[0])
+		//console.log(mapLatLongs);
+		
+		angular.extend($scope, {
+			center: {
+				lat: 52.05,
+				lng: 1.15,
+				zoom: 11
+			},
+			mappaths: {
+				p1: {
+					color: 'red',
+					weight: 4,
+					type: 'polyline',
+					//latlngs: mapLatLongs,
+					latlngs: mapLatLongs
+				}
+			},
+			defaults: {
+				scrollWheelZoom: false
+			}
+		});
+		
+		//console.log($scope.mappaths);
 	}
 	
 	$scope.resetClub = function(){
@@ -134,16 +175,73 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	
 	$scope.foundation = function(){
 		$(document).foundation();
-
 	}
 	
+	
+	
 	$scope.foundation();
-	
-	
+
+	angular.extend($scope, {
+			center: {
+				lat: 52.05,
+				lng: 1.15,
+				zoom: 11
+			},
+			defaults: {
+				scrollWheelZoom: false
+			}
+		});
 	
 }]);
 
 app.service('stravaService',function($http){
+	
+	this.getClubRides = function(data,clubDay,clubTime,clubText,weekdays){
+		var clubrides = [];
+		
+		for(var j = 0; j < 12; j++){
+			var clubride = {};
+			var rides = data[j];
+			for(var i = 0; i < rides.length; i++){
+				if(this.rightWeekday(rides[i].start_date,clubDay,weekdays)
+					&& this.rightTime(rides[i].start_date,clubTime)
+					&& this.containsText(rides[i].name,clubText)){
+					//commutes.push(rides[i]);
+					clubrides.push(rides[i]);
+					
+				}
+			}
+		}
+		//console.log(months);
+		return clubrides;
+	}
+	
+	this.rightWeekday = function(start_date,clubDay,weekdays) {
+		return (new Date(start_date).getDay() == weekdays.indexOf(clubDay));
+	}
+	
+	this.rightTime = function(start_date,clubTime){
+		var start = new Date(start_date);
+		var hour = start.getHours();
+		var endTimeWindow = parseInt(clubTime) + 2;
+		if (hour >= parseInt(clubTime) && hour < endTimeWindow){
+			//console.log("time true" + hour + " " + parseInt(clubTime) + " "+endTimeWindow);
+			return true;
+		} else {
+			//console.log("time false" + hour + " " + parseInt(clubTime) + " "+endTimeWindow);
+			return false;
+		}
+	}
+	
+	this.containsText = function(title,clubText){
+		if (clubText === "" || title.toLowerCase().includes(clubText.toLowerCase())){
+			//console.log("text true" + clubText + " " + title);
+			return true;
+		} else {
+			//console.log("text false" + clubText + " " + title);
+			return false;
+		}
+	}
 	
 	this.miles = function(metres){
 		return (metres*0.000621371192).toFixed(2);
@@ -152,6 +250,15 @@ app.service('stravaService',function($http){
 	this.mph = function(metres){
 		var milesPerSecond = metres*0.000621371192;
 		return ((milesPerSecond*60)*60).toFixed(2);
+	}
+	
+	this.convertToObject = function(array){
+		var returnArray = [];
+		for(var i = 0; i < array.length; i++){
+			var subArray = array[i];
+			returnArray.push({lat:subArray[0],lng:subArray[1]});
+		}
+		return returnArray;
 	}
 	
 });

@@ -9,8 +9,13 @@
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
 		<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 		<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+		<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+		<script src="js/angular-leaflet-directive.min.js"></script>
 		<script src="js/stravaClub.js"></script>
 		<script src="js/amChartsDirective.js"></script>
+		<script src="js/require.js"></script>
+		<script src="js/polyline.js"></script>
 		<link rel="stylesheet" href="foundation-icons/foundation-icons.css" />
 		<link rel="stylesheet" href="css/style.css" />
 	</head>
@@ -76,13 +81,61 @@
 		
 		<div class="content" ng-hide="contentHidden">
 			<div class="row">
-				<div class="small-7 column">
-					<h4>{{clubDay}} rides starting around {{clubTime}} o'clock</h4>
+				<div class="small-9 column">
+					<h4>{{clubDay}} rides starting around {{clubTime}} o'clock<span ng-show="clubText"> with the text {{clubText}}</span></h4>
 				</div>
 				<div class="small-1 column">
 					<button class="button" type="button" ng-click="resetClub()">Reset</button>
 				</div>
 			</div>
+			
+			<div class="row commutes">
+			<h5>Club Rides</h5>
+				<div class="commuteTable">
+				<table class="hover">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Date</th>
+							<th>Distance (miles)</th>
+							<th>Speed (mph)</th>
+							<th>Elevation (m)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="commute" ng-repeat="ride in clubrides | orderBy: 'start_date'">
+							<td>{{ride.name}}</td>
+							<td>{{ride.start_date | date: 'HH:mm dd/MM/yyyy'}}</td>
+							<td>{{miles(ride.distance)}}</td>
+							<td>{{mph(ride.average_speed)}}</td>
+							<td>{{ride.total_elevation_gain}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+				</div>
+				<hr>
+			</div>
+		
+			<div class="row">
+				<h5>Club Ride Distances</h5>
+				<!--<am-chart id="commuteCountChart" class="chart" options="commuteCountChartOptions" ></am-chart>
+				--><hr>
+			</div>
+		
+			<div class="row">
+				<h5>Club Ride Speeds</h5>
+				<!--<am-chart id="commuteSpeedChart" class="chart" options="commuteSpeedChartOptions" ></am-chart>
+			-->	<hr>
+			</div>
+			
+			<div class="row">
+				<h5>Ride Map</h5>
+				<leaflet center="center" paths="mappaths" defaults="defaults" height="500" width="100%"></leaflet>
+			<!--	<am-chart id="commuteTimeChart" class="chart" options="commuteTimeChartOptions" ></am-chart>
+			-->	<hr>
+			</div>
+			
 		</div>
 		
 		<footer class="footer">
