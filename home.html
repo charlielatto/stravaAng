@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Strava Stats Home</title>
+		<title>12 Months of Strava Home</title>
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css">
@@ -26,7 +26,7 @@
 		</div>
 		
 		<div class="callout alert">
-			<div class="row">
+			<div class="row" ng-show="userdata.firstname">
 				<div class="small-1 column small-offset-4">
 					<img class="profilepic" ng-src="{{userdata.profile}}" alt="profile pic">
 				</div>
@@ -48,13 +48,13 @@
 			<div class="medium-4 medium-offset-3 small-offset-3 columns">
 				<button ng-click="commutePage()" class="callout pageButtons" ng-class="{'alert': mouseover}" ng-init="mouseover = false" ng-mouseenter="mouseover = true" ng-mouseleave="mouseover = false">
 					<h5 class="buttonTitle">Commute Stats ></h5>
-					<p ng-show="mouseover" class="button-info">Graphs based on your commutes</p>
+					<p ng-show="mouseover" class="button-info">Data visualisations based on your commutes</p>
 				</button>
 			</div>
 			<div class="medium-4 columns end">
 				<button ng-click="clubPage()" class="callout pageButtons" ng-class="{'alert': mouseover2}" ng-init="mouseover2 = false" ng-mouseenter="mouseover2 = true" ng-mouseleave="mouseover2 = false">
 					<h5 class="buttonTitle">Club Ride Stats ></h5>
-					<p ng-show="mouseover2" class="button-info">Graphs based on your Club rides</p>
+					<p ng-show="mouseover2" class="button-info">Data visualisations based on your Club rides</p>
 				</button>
 			</div>
 		</div>
@@ -63,13 +63,13 @@
 			<div class="medium-4 medium-offset-3 small-offset-3 columns">
 				<button class="callout pageButtons" ng-class="{'alert': mouseover3}" ng-init="mouseover3 = false" ng-mouseenter="mouseover3 = true" ng-mouseleave="mouseover3 = false">
 					<h5 class="buttonTitle">Overall Stats ></h5>
-					<p ng-show="mouseover3" class="button-info">Graphs based on all your rides</p>
+					<p ng-show="mouseover3" class="button-info">Data visualisations based on all your rides - UNDER CONSTRUCTION</p>
 				</button>
 			</div>
 			<div class="medium-4 columns end">
 				<button class="callout pageButtons" ng-class="{'alert': mouseover4}" ng-init="mouseover4 = false" ng-mouseenter="mouseover4 = true" ng-mouseleave="mouseover4 = false">
 					<h5 class="buttonTitle">About ></h5>
-					<p ng-show="mouseover4" class="button-info">About this App</p>
+					<p ng-show="mouseover4" class="button-info">About this App  - UNDER CONSTRUCTION</p>
 				</button>
 			</div>
 		</div>

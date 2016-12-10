@@ -35,7 +35,41 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	$scope.clubDay = "";
 	$scope.clubTime = "";
 	$scope.clubText= "";
+	$scope.mappaths = {};
+	$scope.center = {};
+	var countDeferred = $q.defer();	
 	
+	$scope.clubSpeedChartOptions = $timeout(function(){ 
+			return {
+				data: countDeferred.promise,
+				type: "serial",
+				marginTop:5,
+				categoryField: "month",
+				valueAxes: [{
+					title: "Speed (MPH)"
+				}],
+				balloon: {
+					borderThickness: 1,
+					shadowAlpha: 0
+				},
+				graphs: [{
+					type: "line",
+					balloon:{
+						drop:true,
+						maxWidth:45,
+						pointerOrientation: "right",
+						adjustBorderColor:false,
+						color:"#ffffff"
+					},
+					bullet: "round",
+					bulletSize: 8,
+					title: "Commutes",
+					type: "smoothedLine",
+					balloonText: "<span style='font-size:14px;'>[[month]] <b>[[average_speed]]</b> mph</span>",
+					valueField: "average_speed"
+				}]
+			}
+		},0);
 
 	
 	$http({
@@ -46,7 +80,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		$scope.auth_code = response.data.access_token;
 		$scope.loadProfile($scope.auth_code);
 		$scope.get12monthData($scope.auth_code);
-		//console.log($scope.commuteCountChartOptions);
+		console.log($scope.clubSpeedChartOptions);
 	}, function errorCallback(response) {
 		console.log("error");
 	});
@@ -85,12 +119,9 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 			for (var i = 0; i < response.length; i++) {
 				$scope.monthsData.push(response[i].data);
 			}
-			//$scope.monthCommutes = stravaService.lastMonth($scope.monthsData[11]);
-			//$scope.monthCount = stravaService.allMonths($scope.monthsData,$scope.months);
-			//countDeferred.resolve($scope.monthCount);
-			//console.log($scope.commuteCountChartOptions);
+			
 		});
-		//console.log($scope.monthsData);
+		
 	}
 	
 	$scope.getMonthIndex = function(index) {
@@ -118,39 +149,46 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	}
 	
 	$scope.getClubRides = function(){
-		console.log($scope.clubDay + " " + $scope.clubTime + " " + $scope.clubText);
-		$scope.contentHidden = false;
+		//console.log($scope.clubDay + " " + $scope.clubTime + " " + $scope.clubText);
 		$scope.clubrides = stravaService.getClubRides($scope.monthsData,$scope.clubDay,$scope.clubTime,$scope.clubText,$scope.weekdays);
+		if ($scope.clubrides.length > 0){
+			$scope.contentHidden = false;
+			$scope.errorText = "";
+		} else {
+			$scope.errorText = "No Rides found!";
+		}
 		//console.log($scope.clubrides);	
 		$scope.maps = [];
-		
+		$scope.clubdistance =0;
+		$scope.clubelevation = 0;
+		var avg_speed = 0;
 		for(var i = 0; i < $scope.clubrides.length; i++){
-			$scope.maps.push(polyline.decode($scope.clubrides[i].map.summary_polyline));
+			$scope.maps.push(stravaService.convertToObject(polyline.decode($scope.clubrides[i].map.summary_polyline)));
+			$scope.mappaths["p"+i] = {
+					color: 'blue',
+					weight: 3,
+					opacity:0.3,
+					latlngs:$scope.maps[i]
+				};
+			$scope.clubdistance += $scope.clubrides[i].distance;
+			$scope.clubelevation += $scope.clubrides[i].total_elevation_gain;
+			avg_speed += $scope.clubrides[i].average_speed;
 		}
-		//console.log($scope.maps[0]);
-		var mapLatLongs = stravaService.convertToObject($scope.maps[0])
-		//console.log(mapLatLongs);
-		
-		angular.extend($scope, {
-			center: {
-				lat: 52.05,
-				lng: 1.15,
+		$scope.clubaverage = avg_speed/$scope.clubrides.length;
+		$scope.clubAvgDistance = $scope.clubdistance/$scope.clubrides.length;
+		$scope.clubAvgClimb = ($scope.clubelevation/$scope.clubrides.length).toFixed(0);
+		//console.log($scope.maps[0][0]);
+		$scope.center = {
+				lat: $scope.maps[0][0].lat,
+				lng: $scope.maps[0][0].lng,
 				zoom: 11
-			},
-			mappaths: {
-				p1: {
-					color: 'red',
-					weight: 4,
-					type: 'polyline',
-					//latlngs: mapLatLongs,
-					latlngs: mapLatLongs
-				}
-			},
-			defaults: {
-				scrollWheelZoom: false
-			}
-		});
-		
+			};
+			
+		$scope.monthCount = stravaService.allMonths($scope.monthsData,$scope.months,$scope.clubDay,$scope.clubTime,$scope.clubText,$scope.weekdays);
+		countDeferred.resolve($scope.monthCount);
+			//console.log($scope.commuteCountChartOptions);
+		//console.log($scope.monthCount);
+		//console.log($scope.maps[0]);
 		//console.log($scope.mappaths);
 	}
 	
@@ -158,6 +196,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		$scope.clubDay = "";
 		$scope.clubTime = "";
 		$scope.clubText= "";
+		$scope.errorText = "";
 		$scope.contentHidden = true;
 	}
 	
@@ -167,6 +206,14 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	
 	$scope.mph = function(metres){
 		return stravaService.mph(metres);
+	}
+	
+	$scope.weekdaySelected = function(){
+		if($scope.clubDay === "" || $scope.clubDay === "Saturday" || $scope.clubDay === "Sunday"){
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	$scope.backButton = function(){
@@ -182,11 +229,6 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	$scope.foundation();
 
 	angular.extend($scope, {
-			center: {
-				lat: 52.05,
-				lng: 1.15,
-				zoom: 11
-			},
 			defaults: {
 				scrollWheelZoom: false
 			}
@@ -259,6 +301,34 @@ app.service('stravaService',function($http){
 			returnArray.push({lat:subArray[0],lng:subArray[1]});
 		}
 		return returnArray;
+	}
+	
+	this.allMonths = function(data,monthNames,clubDay,clubTime,clubText,weekdays){
+		var months = [];
+		
+		for(var j = 0; j < 12; j++){
+			var clubs = {};
+			clubs.count=0;
+			clubs.month=monthNames[j];
+			var totalspeed = 0;
+			var rides = data[j];
+			for(var i = 0; i < rides.length; i++){
+				if(this.rightWeekday(rides[i].start_date,clubDay,weekdays)
+					&& this.rightTime(rides[i].start_date,clubTime)
+					&& this.containsText(rides[i].name,clubText)){
+						totalspeed += rides[i].average_speed;
+						clubs.count++;
+					}
+			}
+			if(totalspeed > 0){
+				clubs.average_speed = this.mph((totalspeed/clubs.count));				
+			} else {
+				clubs.average_speed = 0;
+			}
+
+			months.push(clubs);
+		}
+		return months;
 	}
 	
 });

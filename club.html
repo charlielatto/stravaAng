@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Strava Commute Stats</title>
+		<title>12 Months of Club Rides</title>
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css">
@@ -52,16 +52,25 @@
 						<select ng-model="clubDay" ng-disabled="!contentHidden" required>
 							<option value="Saturday">Saturday</option>
 							<option value="Sunday">Sunday</option>
+							<option value="Monday">Monday</option>
+							<option value="Tuesday">Tuesday</option>
+							<option value="Wednesday">Wednesday</option>
+							<option value="Thursday">Thursday</option>
+							<option value="Friday">Friday</option>
 						</select>
 					</label>
+					<p ng-show="weekdaySelected()" class="help-text" id="ClubHelpText">You have weekday club rides?.... really?</p>
 				</div>
 				<div class="small-4 column">
 					<label>What time do you start your ride?
 						<select ng-model="clubTime" ng-disabled="!contentHidden" required>
-							<option value="6">6-8am</option>
-							<option value="8">8-10am</option>
-							<option value="10">10-12pm</option>
-							<option value="12">12-2pm</option>
+							<option value="6">6 - 8am</option>
+							<option value="8">8 - 10am</option>
+							<option value="10">10 - 12pm</option>
+							<option value="12">12 - 2pm</option>
+							<option value="14">2 - 4pm</option>
+							<option value="16">4 - 6pm</option>
+							<option value="18">6 - 8pm</option>
 						</select>
 					</label>
 					<p class="help-text" id="ClubHelpText">Roughly....</p>
@@ -76,6 +85,7 @@
 					<button ng-disabled="!contentHidden || !clubTime || !clubDay" class="alert button" type="submit" value="Submit">Find my Rides!</button>
 				</div>
 			</form>
+			<p class="error" ng-show="errorText">{{errorText}}</p>
 			<hr>
 		</div>
 		
@@ -87,6 +97,24 @@
 				<div class="small-1 column">
 					<button class="button" type="button" ng-click="resetClub()">Reset</button>
 				</div>
+			</div>
+			
+			<div class="row">
+				<hr>
+				<div class="column small-9 small-centered">
+					<p>
+						You've been on <span style="text-decoration:underline">{{clubrides.length}}</span><span ng-show="clubText"> "{{clubText}}"</span> rides in the last 12 months
+						for a total distance of <span style="text-decoration:underline">{{miles(clubdistance)}} miles</span>, 
+						total elevation gain of <span style="text-decoration:underline">{{clubelevation}}m</span>, and 
+						at an average speed of <span style="text-decoration:underline">{{mph(clubaverage)}}mph</span>.
+					</p>
+					<p>
+						On average you ride <span style="text-decoration:underline">{{miles(clubAvgDistance)}} miles</span>
+						and climb <span style="text-decoration:underline">{{clubAvgClimb}}m</span>
+						in each ride.
+					</p>
+				</div>
+				<hr>
 			</div>
 			
 			<div class="row commutes">
@@ -116,21 +144,16 @@
 				</div>
 				<hr>
 			</div>
-		
-			<div class="row">
-				<h5>Club Ride Distances</h5>
-				<!--<am-chart id="commuteCountChart" class="chart" options="commuteCountChartOptions" ></am-chart>
-				--><hr>
-			</div>
-		
-			<div class="row">
-				<h5>Club Ride Speeds</h5>
-				<!--<am-chart id="commuteSpeedChart" class="chart" options="commuteSpeedChartOptions" ></am-chart>
-			-->	<hr>
-			</div>
 			
 			<div class="row">
-				<h5>Ride Map</h5>
+				<h5>Average Ride Speed per Month</h5>
+				<am-chart id="clubSpeedChart" class="chart" options="clubSpeedChartOptions" ></am-chart>
+				<hr>
+			</div>
+		
+			
+			<div class="row">
+				<h5>Where have you been with your club?</h5>
 				<leaflet center="center" paths="mappaths" defaults="defaults" height="500" width="100%"></leaflet>
 			<!--	<am-chart id="commuteTimeChart" class="chart" options="commuteTimeChartOptions" ></am-chart>
 			-->	<hr>

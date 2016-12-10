@@ -102,7 +102,8 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					durationUnits: {
 						hh: ":",
 						mm: ""
-					}
+					},
+					gridAlpha:0
 				},{
 					id: "v2",
 					title: "Avg Evening Start",
@@ -112,8 +113,10 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 					durationUnits: {
 						hh: ":",
 						mm: ""
-					}
+					},
+					gridAlpha:0
 				}],
+			
 				balloon: {
 					borderThickness: 1,
 					shadowAlpha: 0

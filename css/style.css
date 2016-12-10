@@ -91,3 +91,8 @@ button.alert {
 .chart {
 	max-height:350px;
 }
+
+.error {
+	color:red;
+}
+
