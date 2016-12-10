@@ -96,3 +96,14 @@ button.alert {
 	color:red;
 }
 
+div.feature {
+	margin-top: 30px;
+}
+
+
+div.featureBox{
+	height:150px;
+	border-radius:15px;
+	border:2px solid black;
+}
+	
