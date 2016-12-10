@@ -44,6 +44,104 @@
 			<hr>
 		</div>
 		
+		<div class="row" >
+			<h5>Monthly Stats</h5>
+				<label ng-show="selectedMonth">Select Month
+					<select ng-change="changeActiveMonth()" ng-model="selectedMonth">
+						<option ng-repeat="my in monthYear" ng-selected="activeMonth == my" value="{{my}}">{{my}}</option>
+					</select>
+				</label>
+				<div ng-show="monthSummary.distance">
+				<table class="hover">
+					<thead>
+						<tr>
+							<th>Rides</th>
+							<th>Time (HH:MM:SS)</th>
+							<th>Distance (miles)</th>
+							<th>Speed (mph)</th>
+							<th>Elevation (m)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="commute">
+							<td>{{monthSummary.count}}</td>
+							<td>{{secondsToHms(monthSummary.time)}}</td>
+							<td>{{miles(monthSummary.distance)}}</td>
+							<td>{{mph(monthSummary.average_speed)}}</td>
+							<td>{{monthSummary.elevation}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			<hr>
+		</div>
+		
+		<div class="row">
+			<h5>Progress so far this month vs previous months</h5>
+				<label ng-show="selectedCompareMonth">Select Month to compare to
+					<select ng-change="changeActiveCompareMonth()" ng-model="selectedCompareMonth">
+						<option ng-repeat="my in monthYear" ng-selected="activeCompareMonth == my" value="{{my}}">{{my}}</option>
+					</select>
+				</label>
+				<div ng-show="currentMonth.distance">
+				<p class="compareRides">This Month so far:</p>
+				<table class="hover">
+					<thead>
+						<tr>
+							<th>Rides</th>
+							<th>Time (HH:MM:SS)</th>
+							<th>Distance (miles)</th>
+							<th>Speed (mph)</th>
+							<th>Elevation (m)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="commute">
+							<td>{{currentMonth.count}}</td>
+							<td>{{secondsToHms(currentMonth.time)}}</td>
+							<td>{{miles(currentMonth.distance)}}</td>
+							<td>{{mph(currentMonth.average_speed)}}</td>
+							<td>{{currentMonth.elevation}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+				</div>
+				<div ng-show="monthCompareSummary.distance">
+				<p class="compareRides">Compared to the same point in {{activeCompareMonth}}:</p>
+				<table class="hover">
+					<thead>
+						<tr>
+							<th>Rides</th>
+							<th>Time (HH:MM:SS)</th>
+							<th>Distance (miles)</th>
+							<th>Speed (mph)</th>
+							<th>Elevation (m)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="commute">
+							<td>{{monthCompareSummary.count}}</td>
+							<td>{{secondsToHms(monthCompareSummary.time)}}</td>
+							<td>{{miles(monthCompareSummary.distance)}}</td>
+							<td>{{mph(monthCompareSummary.average_speed)}}</td>
+							<td>{{monthCompareSummary.elevation}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			<hr>
+		</div>
+		
+		<div class="row">
+			<h5>When do you ride? <small>Excluding Commutes</small></h5>
+			<am-chart id="weekdayChart" class="chart" options="weekdayChartOptions" ></am-chart>
+			<hr>
+		</div>
+		
+		
 		
 		<footer class="footer">
 			<div class="title-bar">

@@ -45,7 +45,7 @@
 				<table class="hover">
 					<thead>
 						<tr>
-							<th>Name</th>
+							<th style="max-width:150px; word-wrap: break-word;">Name</th>
 							<th>Date</th>
 							<th>Distance (miles)</th>
 							<th>Speed (mph)</th>
@@ -54,7 +54,7 @@
 					</thead>
 					<tbody>
 						<tr class="commute" ng-repeat="ride in monthCommutes">
-							<td>{{ride.name}}</td>
+							<td style="max-width:150px; word-wrap: break-word;">{{ride.name}}</td>
 							<td>{{ride.start_date | date: 'HH:mm dd/MM/yyyy'}}</td>
 							<td>{{miles(ride.distance)}}</td>
 							<td>{{mph(ride.average_speed)}}</td>
