@@ -157,19 +157,21 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		} else {
 			$scope.errorText = "No Rides found!";
 		}
-		//console.log($scope.clubrides);	
+		console.log($scope.clubrides);	
 		$scope.maps = [];
 		$scope.clubdistance =0;
 		$scope.clubelevation = 0;
 		var avg_speed = 0;
 		for(var i = 0; i < $scope.clubrides.length; i++){
-			$scope.maps.push(stravaService.convertToObject(polyline.decode($scope.clubrides[i].map.summary_polyline)));
-			$scope.mappaths["p"+i] = {
+			if ($scope.clubrides[i].map.summary_polyline != null){
+				$scope.maps.push(stravaService.convertToObject(polyline.decode($scope.clubrides[i].map.summary_polyline)));
+				$scope.mappaths["p"+i] = {
 					color: 'blue',
 					weight: 3,
 					opacity:0.3,
 					latlngs:$scope.maps[i]
 				};
+			}
 			$scope.clubdistance += $scope.clubrides[i].distance;
 			$scope.clubelevation += $scope.clubrides[i].total_elevation_gain;
 			avg_speed += $scope.clubrides[i].average_speed;
@@ -266,7 +268,7 @@ app.service('stravaService',function($http){
 		var start = new Date(start_date);
 		var hour = start.getHours();
 		var endTimeWindow = parseInt(clubTime) + 2;
-		if (hour >= parseInt(clubTime) && hour < endTimeWindow){
+		if (clubTime == "" || (hour >= parseInt(clubTime) && hour < endTimeWindow)){
 			//console.log("time true" + hour + " " + parseInt(clubTime) + " "+endTimeWindow);
 			return true;
 		} else {

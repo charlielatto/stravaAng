@@ -195,7 +195,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		//console.log($scope.years);
 		//console.log($scope.months);
 		var promises = [];
-		for(var index=0; index < 12; index++){
+		for(var index=0; index < 13; index++){
 			var month = $scope.getMonthIndex(index);
 			var startOfMonth = new Date($scope.years[index],month,1)/1000;
 			var endOfMonth = new Date($scope.years[index],month+1,1)/1000;
@@ -235,7 +235,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		var now = new Date();
 		var year = now.getFullYear();
 		var currentMonth = now.getMonth();
-		var index = 11;
+		var index = 12;
 		$scope.months[index] = monthNames[currentMonth];
 		$scope.years[index] = year; 
 		while(index > 0) {
@@ -277,7 +277,7 @@ app.service('stravaService',function($http){
 	this.allMonths = function(data,monthNames){
 		var months = [];
 		
-		for(var j = 0; j < 12; j++){
+		for(var j = 0; j < 13; j++){
 			var commutes = {};
 			commutes.count=0;
 			commutes.month=monthNames[j];

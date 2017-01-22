@@ -82,7 +82,7 @@
 					<p class="help-text" id="ClubHelpText">This needs to be in <b>all</b> of your club ride titles.</p>
 				</div>
 				<div class="small-2 small-centered column">
-					<button ng-disabled="!contentHidden || !clubTime || !clubDay" class="alert button" type="submit" value="Submit">Find my Rides!</button>
+					<button ng-disabled="!contentHidden || !clubDay || (!clubTime && !clubText)" class="alert button" type="submit" value="Submit">Find my Rides!</button>
 				</div>
 			</form>
 			<p class="error" ng-show="errorText">{{errorText}}</p>
@@ -92,7 +92,7 @@
 		<div class="content" ng-hide="contentHidden">
 			<div class="row">
 				<div class="small-9 column">
-					<h4>{{clubDay}} rides starting around {{clubTime}} o'clock<span ng-show="clubText"> with the text {{clubText}}</span></h4>
+					<h4>{{clubDay}} rides<span ng-show="clubTime"> starting around {{clubTime}} o'clock</span><span ng-show="clubText"> with the text {{clubText}}</span></h4>
 				</div>
 				<div class="small-1 column">
 					<button class="button" type="button" ng-click="resetClub()">Reset</button>
