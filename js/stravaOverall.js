@@ -103,7 +103,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		//console.log($scope.years);
 		//console.log($scope.months);
 		var promises = [];
-		for(var index=0; index < 12; index++){
+		for(var index=0; index < 13; index++){
 			var month = $scope.getMonthIndex(index);
 			var startOfMonth = new Date($scope.years[index],month,1)/1000;
 			var endOfMonth = new Date($scope.years[index],month+1,1)/1000;
@@ -131,7 +131,7 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 		var now = new Date();
 		var year = now.getFullYear();
 		var currentMonth = now.getMonth();
-		var index = 11;
+		var index = 12;
 		$scope.months[index] = monthNames[currentMonth];
 		$scope.years[index] = year; 
 		while(index > 0) {
@@ -165,12 +165,12 @@ function($scope,$location,$http,stravaService,$q,$timeout){
 	$scope.foundation();
 	
 	$scope.setUpMonths = function(){
-		for(var i =0; i < 12; i++){
+		for(var i =0; i < 13; i++){
 			$scope.monthYear.push($scope.months[i] + " " + $scope.years[i]);
 			
 		}
-		$scope.activeMonth = $scope.monthYear[11];
-		$scope.activeCompareMonth = $scope.monthYear[10];
+		$scope.activeMonth = $scope.monthYear[12];
+		$scope.activeCompareMonth = $scope.monthYear[11];
 		$scope.selectedMonth = $scope.activeMonth;
 		$scope.selectedCompareMonth = $scope.activeCompareMonth;
 		$timeout(function(){
