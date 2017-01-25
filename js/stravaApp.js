@@ -5,7 +5,7 @@ app.controller('MainCtrl',[
 function($scope){
 	
 	var clientid = 14160;
-	var redirect = "http://213.1.14.56/stravastats2/home.html";
+	var redirect = "http://charlielatto.zapto.org/stravastats2/home.html";
 	var url = "https://www.strava.com/oauth/authorize?client_id="+clientid+"&response_type=code&redirect_uri="+redirect;
 	
 	$scope.callStrava = function(){
